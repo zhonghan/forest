@@ -49,3 +49,6 @@ body {
 .author a {
     color: #ee4444;
 }
+.img-circle {
+    border-radius: 50%;
+}
