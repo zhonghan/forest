@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Thinny 2: a Jekyll theme"
+title: "Oracle sys_guid使用"
 quote: The Infinite's Nymphet has a new look, a new codename, and a new platform!
 image: false
 video: false
