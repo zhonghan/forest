@@ -1,39 +1,52 @@
-# Jekyll configuration
+# Dependencies
+markdown:	redcarpet
+pygments:	true
 
-name: My blog
-description: A jekyll theme
+# Permalinks
+permalink:	/blog/:title
 
-# url is currently only used only for the RSS feed in feed.xml
-url: https://zhonghan.github.io/forest
+# Setup
+title:		Thinny
+tagline:	'blog'
+description:	'My personal blog.'
+url:		http://camporez.com
 
-# baseurl will often be '', but for a project page on gh-pages, it needs to
-# be the project name.
-# *** IMPORTANT: If your local "jekyll serve" throws errors change this to '' or
-#     run it like so: jekyll serve --baseurl=''
-baseurl: /forest
+author:
+  name:		'Ian Camporez Brunelli'
+  url:		https://google.com/+IanCamporezBrunelli
 
-# This can be '' to hide the Github nav button
-github: 'zhonghan/forest'
+paginate:	5
 
-# Set this to your UA-# value, or '' to disable the block completely
-gaaccount: ''
+# Custom vars
+icon:		/assets/images/icon.png
+cover:		/assets/images/cover.jpg
 
-# The 'comments' setting enables comments. You'll need to select either
-# disqus or isso below to choose a comment system. Individual posts can
-# override 'comments' to disable on a post-by-post basis.
-comments: true
+social:
+  - icon:	twitter
+    url:	https://twitter.com/iancamporez
+    desc:	Follow me on twitter
 
-# Set this to your public isso URL to enable comments via isso. Set to '' to disable isso.
-isso: ''
+  - icon:	github
+    url:	https://github.com/camporez
+    desc:	Fork me on github
 
-# Set this to your disqus shortname to enable comments via disqus. Set to '' to disable disqus.
-disqus: ''
+  - icon:	googleplus-alt
+    url:	https://google.com/+IanCamporezBrunelli
+    desc:	Add me on google+
 
-permalink: /:year/:month/:title
-paginate: 5
-
-highlighter: rouge
-markdown: kramdown
-gems: ['jekyll-paginate']
-
-exclude: ['README.md', 'LICENSE']
+  - icon:	feed
+    url:	http://camporez.com/atom.xml
+    desc:	Subscribe to my feed
+    
+menu:
+  - title:	Home
+    url:	/
+    
+  - title:	About
+    url:	/about
+    
+copyright:
+  author:	Camporez
+  url:		http://camporez.com
+  type_title:	Some rights reserved
+  type_url:	http://creativecommons.org/licenses/by-nc/2.5
