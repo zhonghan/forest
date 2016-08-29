@@ -8,7 +8,7 @@ categories:
 permalink: oracle-sys-guid
 ---
 
-Oracle8i引入了SYS_GUID这个概念，它同Oracle管理员所使用的传统的序列（sequence）相比具有诸多优势。一个序列生成器只是简单地创建从给定的起点开始的一系列整数值，而且它被用在选择陈述式的时候自动地递增该系列。
+Oracle8i引入了SYS_GUID这个概念，它同Oracle管理员所使用的传统的序列（sequence）相比具有诸多优势。一个序列生成器只是简单地创建从给定的起点开始的一系列整数值，而且它被用在选择陈述式的时候自动地递增该系列.
 
 ___
 
