@@ -1,9 +1,10 @@
 source 'https://rubygems.org'
 
-gem 'jekyll'
-gem 'jekyll-assets'
-gem 'maruku'
+require 'json'
+require 'open-uri'
+versions = JSON.parse(open('https://pages.github.com/versions.json').read)
+
+gem 'github-pages', versions['github-pages']
 gem 'rake'
-gem 'sass'
-gem 'uglifier'
-gem 'github-pages'
+
+gem 'pygments.rb'
