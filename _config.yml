@@ -4,7 +4,8 @@
 baseurl: /forest
 
 # Site live URL
-url: http://gayan.me
+#url: http://gayan.me
+url: http://zhonghan.github.io
 
 # Localhost 
 # url: http://127.0.0.1:4000  
