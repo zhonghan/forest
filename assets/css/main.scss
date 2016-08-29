@@ -482,7 +482,7 @@ body.theme-base-01 {
 
   header.main-header {
     color: #FFFFFF;
-    background-color: #272935
+    background-color: #272935;
     ul li { 
       color: $base-08;
     }
@@ -511,7 +511,7 @@ footer.main-footer {
 }
 .page-content {
   padding: 1em 0;
-  background-color: floralwhite
+  background-color: floralwhite;
   @include MQ(M) { padding: 2em 0; }
 }
 
