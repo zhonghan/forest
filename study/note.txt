@@ -1,4 +1,4 @@
-常见的web攻击手段
+﻿常见的web攻击手段
 1、	XSS(cross site scripting) 跨站脚本攻击。
 攻击手段：主要是在网页上的输入，系统接收后再显示在网页上时出现的问题。比如页面input框中数据<script>攻击脚本</script>, 之后页面要显示这个内容时，就会执行这段攻击脚本。 
 防范：之所以会发生，是因为用户输入的数据变成了代码，因此我们需要对用户的输入进行HTML转译处理，将其中的“尖括号”，“单引号”，“双引号”之类的特殊字符进行编码。
@@ -41,15 +41,6 @@ ReentrantLock 相比Synchronized而言，Reentrantlock的等待是可以中断�
 
 
 
-
-
-
-
-
-
-
-
-
 JVM 类加载机制
 加载class的方式：
 1、	从本地系统中直接加载
@@ -65,67 +56,11 @@ JVM 类加载机制
 5、	初始化
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 一些设计的基本常识：
 框架或者组件通常有两类客户，一个是使用者，另一个是扩展者。
 API 是给使用者用的， 而SPI是给扩展者用的。
 在设计时，尽量把它们隔离开，而不要混在一起，也就是说，使用者是看不到扩展者写的实现的，比如一个Web框架，他有一个API叫做Action，里面有一个execute方法，是给使用者来写业务逻辑的，然后，Web框架有一个SPI接口是给扩展者控制输出方式的，比如velocity模板输出是还是json输出等，如果这个web框架使用一个都继承action的velocityAction和一个JsonAction座位扩展方式，要用velocity模板输出的就继承VelocityAction，要用json输出就继承jsonAction，这就是API和SPI没有分离的反面例子，SPI接口混在api接口中，合理的方式是，有一个单独的Renderer接口，有VelocityRenderer和JsonRenderer实现，Web框架Action的输出转交给Renderer接口做渲染输出
 1、	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -136,16 +71,11 @@ Java GC
 2、	可达性分析：从GC roots开始向下搜索，搜索走过的路劲称为引用
 
 
-
-
-
-
 Java 创建对象的4中方式：
 1、	New
 2、	Clone， 需要实现cloneable接口，调用super.clone()返回Object
 3、	序列化， 使用ObjectInputSteam.readObject（）的方法。
 4、	反射，通过clazz.getConstructor（）得到构造器 con，在通过con.newInstance()获得对象。
-
 
 
 很可能问到的面试题：
@@ -210,12 +140,23 @@ b)	SAX
 c)	JDOM
 d)	DOM4J
 
-
-
 分库分表：
 分表，分库
 分库又分表： 库=id /（库数量*单库表数量）， 表=id%（库数量*单库表数量）
 例如库数量为64，单库表数量为：128， id=234234，   中间变量：234234/(64*128)=28， 则库路由到28/128=0,表路由到28*128=128
+
+
+高可用：集群化、或者冗余+自动故障转移
+1、客户端到反向代理的高可用，通过冗余nginx+keepalived来实现（相同的virtual ip）。
+2、反向代理到站点的高可用，通过冗余站点+nginx自动探测故障，实现故障自动转移。
+3、redis的缓存高可用，是通过冗余redis+sentinel哨兵机制来做存活性检查。
+4、数据库高可用： mysql也可以使用keepalived来实现探测
+高并发：水平扩展
+1、反向代理瓶颈，可以通过dns轮询。
+2、提升网络带宽
+3、静态资源cdn；
+4、缓存
+
 
 
 
