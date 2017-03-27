@@ -1,53 +1,65 @@
-# Dependencies
-markdown:	redcarpet
-pygments:	true
+# Harmony Jekyll theme general configurations 
+
+# Base URL
+baseurl: /forest
+
+# Site live URL
+#url: http://gayan.me
+url: http://zhonghan.github.io
+
+# Localhost 
+# url: http://127.0.0.1:4000  
+
+# Harmony theme configuration. Please change accordingly.
+harmony:
+  name: Karl's Blog
+  # Little description about your site
+  description: 先设定一个小目标，比如先赚他一个亿.
+  # 'meta_description:' Write an awesome description for your new site here.
+  # It will appear in your document head meta (for Google search results) and 
+  # in your feed.xml site description.
+  meta_description: > # 
+   Harmony is a free responsive jekyll theme by Gayan Virajith
+   and Maheshika Lakmali. Sourced on Github - 
+   https://github.com/gayanvirajith/harmony
+  basetheme: theme-base-01 # pre defined thmes are darken, blue-water, redish.
+  author: # Author details
+    name: Gayan Virajith
+    email: gayanvirajith@gmail.com
+    url: http://gayanvirajith.github.io
+
+  # Google Analytics key, leave blank to ignore
+  google_analytics_key: UA-xxxx-x
+
+  # Profile links, leave blank to ignore
+  social: 
+    github: gayanvirajith
+    twitter: gayanvirajith
+    facebook: gayanvirajith
+    gplus: +GayanVirajith
+    dribble: gayan
+    pinterest: 
+  # Toggle disclaimer in footer
+  show_disclaimer: true
+
+# Conversion / Build settings 
+markdown:    kramdown
+# This is how you put pygments config in jekyll 2.0 instead of pygments: true
+highlighter: pygments 
 
 # Permalinks
-permalink:	/blog/:title
+permalink:        pretty
 
-# Setup
-title:		Thinny
-tagline:	'blog'
-description:	'My personal blog.'
-url:		http://camporez.com
-baseurl:    /forest
+exclude: 
+  - CNAME
+  - Gemfile
+  - Rakefile
+  - README.md
+  - .gitignore
+  - .sass-cache
+  - Gemfile.lock
 
-author:
-  name:		'Ian Camporez Brunelli'
-  url:		https://google.com/+IanCamporezBrunelli
-
-paginate:	5
-
-# Custom vars
-icon:		/forest/assets/images/icon.png
-cover:		/forest/assets/images/cover.jpg
-
-social:
-  - icon:	twitter
-    url:	https://twitter.com/iancamporez
-    desc:	Follow me on twitter
-
-  - icon:	github
-    url:	https://github.com/camporez
-    desc:	Fork me on github
-
-  - icon:	googleplus-alt
-    url:	https://google.com/+IanCamporezBrunelli
-    desc:	Add me on google+
-
-  - icon:	feed
-    url:	http://camporez.com/atom.xml
-    desc:	Subscribe to my feed
-    
-menu:
-  - title:	Home
-    url:	/
-    
-  - title:	About
-    url:	/about
-    
-copyright:
-  author:	Camporez
-  url:		http://camporez.com
-  type_title:	Some rights reserved
-  type_url:	http://creativecommons.org/licenses/by-nc/2.5
+# Sass conversion configs
+sass:
+    sass_dir: assets/css/_sass
+    style: :compressed
