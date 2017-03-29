@@ -194,6 +194,28 @@ CMS是基于“标记 清楚”算法实现的，它的运作过程相对复杂�
 并发请求：
 其中，初始标记和重新标记需要stop the world，初始标记仅仅是标记一下GC roots能直接关联到的对象，速度很快，并发标记阶段就是进行GCroot tracing的过程，而重新标记极端则是为了修正并发标记期间，因用户持续运作而导致标记产生变动的那一部分对象标记记录。这个阶段的停顿时间一般比初始标记稍长一些，但远比并发标记时间短。由于整个过程中耗时最长的并发标记和并发清除中，收集器线程都可以与用户线程一起工作，所以总体上来说，CMS收集器的内存回收过是与用户线程一起并发执行。老年代收集器
 
+Ibatis源码解读：
+核心接口：
+SqlMapExecutor  该接口是对SQL操作行为的抽象，提供了SQL单条执行和批处理涉及的所有操作方法。
+SqlMapTransactionManager 该接口是对事务行为的抽象，提供了事务执行过程中的涉及的所有方法。
+SqlMapClient 该接口定位是SQL执行客户端，是线程安全的，用于处理多个线程的sql执行。它继承了上面两个接口，这意味着该接口具有SQL执行、批处理和事 务处理的能力，如果你拥有该接口的实现类，意味着执行任何SQL语句对你来说是小菜一碟。该接口的核心实现类是SqlMapClientImpl。
+SqlMapSession 该接口在继承关系上和SqlMapClient一致，但它的定位是保存单线程sql执行过程的session信息。该接口的核心实现类是SqlMapSessionImpl。
+MappedStatement  该接口定位是单条SQL执行时的上下文环境信息，如SQL标识、SQL、参数信息、返回结果、操作行为等。
+ParameterMap/ResultMap  该接口用于在SQL执行的前后提供参数准备和执行结果集的处理。
+SqlMapExecutorDelegate 他是一个执行代理类，在ibatis框架中地位非常重要，因为他耦合了用户端的操作行为和执行环境，他持有执行操作的所需要的所有数据，同时管理着执行操作依赖的环境。
+
+
+java类初始化顺序
+1、父类static block
+2、子类static block
+3、父类成员变量赋值
+4、父类constructor
+5、子类成员变量赋值
+6、子类constructor
+
+
+LinkedList remove(Object)的复杂度 ， 由于linkedList内部维护一个entry的双向链表，需要根据传入的object找到该entry，才能delete，所以复杂度为O(n),并不是O(1)
+
 
 
 
