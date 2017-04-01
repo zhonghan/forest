@@ -1,0 +1,25 @@
+producer  -> activeMQ broker -> consumer
+
+activemq是一个消息中间件，对于消费者而言有两种方式从消息中间件获取消息
+1、push， 可以尽可能快地讲消息发送给消费者，但是如果消费者处理消息的能力弱时，而消息中间件不断地想消费者push消息，消费者的缓冲区可能会溢出。
+ActiveMQ使用prefetch limit来解决这个问题。
+2、pull， 会增加消息的延时
+
+prefetch limit规定了一次可以向消费者push多少条消息。当推送消息的数量达到prefetch limit规定的数值时，消费者还没有想消息中间件返回ACK，消息中间件将不再向消费者推送消息。
+
+prefetch limit设置原则：
+如果消息的数量很少（生产者生产消息的速率不快），但是每条消息消费者都需要很长的时间处理，那么prefetch limit设置为1比较合适，这样消费者每次只会收到一条消息，当它处理完成这条消息之后，向消息中间件发送ACK，此时，消息中间件再向消费者推送下一条消息。
+prefetch limit设置为0意味着什么？
+意味着，消费者去轮询消息中间件获取消息，不再是push方式，而是pull方式了。
+
+当push方式时，消费者以何种方式向消息中间件返回确认ACK，比如消费者是每次消费一条消息就想中间件确认呢，还是采用延时确认，即采用批量确认（消费了若干条消息后，统一再发送ACK）。这就是optimized Acknowledge
+
+程序中采用push方法还是pull？
+从是否阻塞来看，消费者有两种方式获取消息，同步方式和异步方式。
+同步方式使用ActiveMQMessageConsumer的receive()方法。而异步方法则是采用消费者实现MessageListener接口，监听消息。
+
+使用receive()方法时，prefetch limit可以为0， 也可以大于0.
+prefetch limit=0时，receive方法或首先发送一个PULL指令并阻塞，直到broker端返回消息为止，这也意味着消息只能逐个获取。
+prefetch limit>0时，broker端会批量push给consumer一定数量的消息（<=preffetch limit），consumer会把这些消息放在一个队列中，只要队列不为空，那么receive方法就会立即返回，当一定量的消息ACT之后，broker会继续push消息给consumer。
+
+当使用MessageListner异步获取消息时，prefetch limit必须大于0. 
