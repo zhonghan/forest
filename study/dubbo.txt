@@ -49,3 +49,17 @@ Dubbo服务负载均衡
 	RoundRobin LoadBalance，轮询策略，配置值为roundrobin。
 	LeastActive LoadBalance：配置值为leastactive。根据请求调用的次数，处理请求更慢的节点会受到更少的请求
 	ConsistenHash LoadBalance，一致性hash策略。具体配置方法可以参考Dubbo文档，相同调用参数的请求会发送到同一个服务提供方的节点上，如果某个节点发生故障无法提供服务，则会基于一致性hash算法映射到虚拟节点上。
+
+
+
+Dubbo ExtensionLoader(扩展点加载机制)
+Dubbo 的扩展点加载从JDK标准的SPI service provider interface扩展点发现机制加强而来。
+Dubbo 改进了JDK标准的SPI的一下问题：
+  1、JDK标准的SPI会一次性实例化扩展点所有实现，如果有扩展实现初始化很耗时，但如果没用也加载，会很浪费资源
+  2、如果扩展点加载失败，连扩展点的名称都拿不到。比如JDK标准的scriptEngine，通过getName获取脚本类型的名称，但如果RubyScriptEngine因为所依赖的jruby.jar不存在，导致RubyScriptEngine类加载失败，这个失败原因被吃掉了，和ruby对应不起来，当用户执行ruby脚本时，会报不支持ruby，而不是真正失败的原因。
+  3、增加了对扩展点Ioc和AOP的支持，一个扩展点可以直接setter注入其他扩展点。
+约定：
+在扩展类jar保内，放置扩展点配置文件：META-INFO/dubbo接口全限定名，内容为：配置名=扩展实现类全限定名，多个实现类换行符分割。（注意：这个配置文件是放在你自己的jar包内，不是dubbo本事的jar包内，Dubbo会全ClassPath扫描所有jar包内同名的这个文件，然后进行合并）
+扩展点使用单一实例加载，Cache在ExtensionLoad中。
+  
+
