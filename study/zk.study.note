@@ -1,0 +1,58 @@
+zookeeper：(一)
+	DataTree代表这个目录结构， DataNode代表一个节点
+	DataTree默认初始化三目录
+		1、“”
+		2、“/zookeeper”
+		3、“/zookeeper/quota”
+	DataNode:表示一个节点，
+		1、存储了父节点的引用
+		2、节点的权限信息
+		3、子节点路劲集合
+	
+zookeeper：(二) zookeeper 数据存储之snapshot
+	snapshot是已二级制形式存在的文件，大体可以分为两部分， header和body
+
+zookeeper：（三）数据存储之TxnLog事务日志
+	事务日志文件用来记录事务操作，每一个事务操作如添加，删除节点等等，都会在事务日志中记录一条记录，用来在zookeeper异常的情况下，通过txnLog和snapshot文件来恢复数据。
+	
+zookeeper：（五）数据存储之ZKDatabase
+	ZKDatabase在内存中维护了zookeeper的sessions， datatree和commit logs集合。当zookeeper server启动的时候会将txnlogs和snapshots从磁盘读取到内存中。
+
+zookeeper：（六）数据存储总结
+	zookeeper数据是以文件形式存储在硬盘上的，已snapshot为主，txnlog为辅，因为当对内存数据进行变更时候，会保证事务操作记录log日志，而snapshot只是内存某一时刻镜像，为了性能takesnapshot生产snapshot并不是实时的，而是由后台线程根据一定规则处理的。
+
+zookeeper：（七）序列化之底层通信数据封装与操作
+	BinaryInputArchive & BinaryOutputArchive
+	record是zookeeper底层通信数据序列化与反序列化统一接口
+	
+zookeeper：（八）选举之QuorumPeerMain加载
+	zookeeper集群的入口类是QuorumPeerMain来加载配置启动QuorumPeer线程。首先我们来看下QuorumPeer，谷歌翻译quorum是法定人数，定额的意思，peer是对等的意思，那么QuorumPeer中quorum代表的意思就是每个zookeeper集群启动的时候集群中zookeeper服务数量就已经确定了，在每个zookeeper的配置文件中配置集群中所有的机器。
+	server.1=127.0.0.1:2886:3886 
+	server.2=127.0.0.1:2887:3887 
+	server.3=127.0.0.1:2888:3888
+	事实上zookeeper在运行中是不能动态扩容的，必须停下服务修改配置才可以；QuorumPeer中peer代表就是集中每个zookeeper角色是对等的没有主从之分，每个zookeeper服务都可以成为leader， follower， observer
+	1、QuorumPeerMain加载
+	    A. QuorumPeerConfig读取配置文件，如下面的zoo.cfg文件。
+		tickTime=2000
+		initLimit=10
+		syncLimit=5
+		dataDir=D:/workspace_zookeeper/data1
+		clientPort=2181
+		server.1=127.0.0.1:2886:3886 
+		server.2=127.0.0.1:2887:3887 
+		server.3=127.0.0.1:2888:3888
+		如上配置中每个server.x记录代表集群中一个节点，QuorumPeerConfig会构建一个QuorumServer对象，其中的server.x中的x代表zookeeper中sid，每个zookeeper都会编辑自己的sid在dataDir目录下的myid文件，sid标记每个服务，在快速选举中起作用。
+		B.启动定时清理服务任务DatadirCleanupManager.start()用来清理过期额txtLog和snapshot文件
+		C.构建QuorumPeer任务对象。
+			C1:设置供客户端连接的端口地址
+			C2：设置txtLog和snapshot的操作对象FileTxnSnaplog
+			C3:设置Zookeeper的myid
+			C4：设置客户端的连接工厂
+			C5：设置选举算法
+			C6：各种时间设置等等
+		D：QuorumPeer.start（）启动任务线程。
+	
+	
+	
+
+
