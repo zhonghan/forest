@@ -39,6 +39,47 @@ trace 跟踪参数
 栈的分配参数：
    Xss   设置栈空间的大小，通常只有几百K，确定了函数的调用深度，每个线程都有独立的栈空间，局部变量、参数、分配在栈上。
 
+
+GC
+新生代  使用复制算法
+  新生代中98%的对象都是朝生夕死的，所有不需要按照1：1的比例来划分内存空间，而是将内存分为一块比较大的Eden和两块较小的Survivor空间，每次使用Eden和其中一块survivor。当回收时，将Eden和Survivor中还存活的对象一次性复制到另一块Survivor空间上，最后清理掉Eden和刚才使用过的Survivor。HotSpot虚拟机默认Eden和Survivor大大小比例为8：1， 
+老生代  使用标记-压缩算法
+
+垃圾收集器是收集算法的实现。
+一、串行收集器：Serial收集器
+  最古老，最稳定
+  简单而高效
+  可能会产生较长的停顿
+  -XX:+useSerialGC
+   新生代和年老代都会使用串行回收器， 新生代复制算法，老年代为标记-整理算法
+  串行收集器是一个单线程收集器，但他的单线程的意义并不仅仅说明它只会使用一个CPU或者一条手机线程去完成垃圾收集工作，更重要的是在它进行垃圾收集时，必须暂定其他所有的工作，直到它收集结束。
+二、并行收集器
+1、ParNew收集器
+  ParNew收集器其实就是Serial收集器的新声带的并行版本，    新生代并行，年老代串行
+  -XX:+useParNewGC
+  -XX:ParallelGCThreads 限制线程数量
+2、Parallel Scanvenge 收集器
+  类似ParNew，但更加关注吞吐量
+  +XX:+UseParallelGC 使用Parallel Scanvenge收集器：  新生代并行，年老代串行
+3、Parallel Old 收集器：
+   Parallel old收集器是Parallel Scanvenge收集器的老年代版本
+   -XX:+useParallelGC  使用Parallel Old收集器，      新生代并行，年老代并行
+
+各种参数：
+   -XX:MaxGCPauseMills
+      最大停顿时间，单位毫秒
+      GC尽力保证回收时间不超过设定值
+   -XX:GCTimeRatio
+     0-100的取值范围
+     垃圾收集时间占总时间的比
+     默认99%，即允许1%时间做GC   
+   注意，这两个参数是矛盾的，因为停顿时间和吞吐量不可能同时调优，我们一方面停顿时间少，另一方面希望吞吐量高，其实这是矛盾的，因为在GC的时候，垃圾回收的工作总量是不变的。
+三、CMS收集器：
+   CMS收集器(Concurrent Mark Sweep并发标记清除)是一种以获取最短回收停顿时间为目标的收集器。适合应用在互联网站或者B/S系统的服务器上，这类应用尤其重视服务器的响应速度，希望系统停顿时间最短。
+   并发标记清除，是老年代收集器（新生代使用ParNew）
+   -XX:+useConcMarkSweepGC
+
+
  
 
 
