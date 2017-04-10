@@ -1,0 +1,11 @@
+1、Spring 传播类型
+required       ->如果当前没有实物，就创建一个，如果已经存在事务，就加入事务中。
+supports       ->支持当前事务，如果当前没有事务，就已非事务方式执行。
+mandatory     ->使用当前是事务，如果当前没有事务，就抛出异常。
+requires_new    ->新建事务，如果当前存在事务，就把当前事务挂起。
+not_supported ->以非事务方式执行，如果当前存在事务，就把当前事务挂起。
+never         ->以非事务方式执行，如果当前存在事务，就抛出异常。
+nested        ->如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与require类似的操作。
+
+spring事务的原理：
+为dataSource生成代理类，通过aop和thread local来实现数据库的setautocommit begintransation commit transaction以及 rollback。
