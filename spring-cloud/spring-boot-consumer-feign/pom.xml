@@ -3,32 +3,34 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.karl.spring.boot</groupId>
-    <artifactId>spring-cloud-reg</artifactId>
+    <artifactId>spring-boot-consumer-feign</artifactId>
     <version>0.0.1</version>
     <packaging>jar</packaging>
+    <name>spring-boot-consumer-feign</name>
 
-    <name>spring-cloud-reg</name>
-	<url>http://maven.apache.org</url>
-
-    <parent>
+	<parent>
         <groupId>com.karl.spring.boot</groupId>
         <artifactId>spring-cloud</artifactId>
         <version>0.0.1</version>
         <relativePath>../</relativePath>
     </parent>
 
-
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
 
     </dependencies>
 
-
     <build>
-        <finalName>spring-cloud-reg</finalName>
+        <finalName>spring-boot-consumer</finalName>
         <plugins>
             <!-- jdk编译插件 -->
             <plugin>

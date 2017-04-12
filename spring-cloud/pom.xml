@@ -14,6 +14,7 @@
 		<module>spring-boot-reg</module>
 		<module>spring-boot-provider</module>
 		<module>spring-boot-consumer</module>
+        <module>spring-boot-consumer-feign</module>
 	</modules>
 
     <properties>
