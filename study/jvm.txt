@@ -79,6 +79,21 @@ GC
    并发标记清除，是老年代收集器（新生代使用ParNew）
    -XX:+useConcMarkSweepGC
 
+   
+gc_opts=-Xloggc:%(log_path)s/%(appname)s.gc.log -verbose:gc -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:+CMSClassUnloadingEnabled -XX:+DisableExplicitGC -XX:CMSInitiatingOccupancyFraction=70
+dump_opts=-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/wls/
+jvm_opts=-Xms2g -Xmx2g -XX:NewSize=1024m -XX:MaxNewSize=1024m -XX:SurvivorRatio=22 -XX:MetaspaceSize=64M -XX:MaxMetaspaceSize=512M -Djava.util.Arrays.useLegacyMergeSort=true
+
+-verbose.gc开关可显示GC的操作内容。打开它，可以显示最忙和最空闲收集行为发生的时间、收集前后的内存大小、收集需要的时间等。
+打开-xx:+printGCdetails开关，可以详细了解GC中的变化。
+打开-XX:+PrintGCTimeStamps开关，可以了解这些垃圾收集发生的时间，自JVM启动以后以秒计量
+
+-Djava.util.Arrays.useLegacyMergeSort=true是由于jdk1.7修改了Arrays的sort方法
+1.7之前比较方法可以不返回0，即只返回1或-1
+1.7之后比较方法必须返回1,0，-1 三种可能性。
+为了兼容之前的代码，就加了这个系统参数。
+
+
 
  
 
