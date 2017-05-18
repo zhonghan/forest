@@ -1,0 +1,49 @@
+史上最全面的HashMap分析文章（jdk1.6）
+
+构造方法：
+public HashMap(int initialCapacity, float loadFactor) 
+    //如果传入的initialCapacity小于0，则throw exception
+    if (initialCapacity < 0)
+            throw new IllegalArgumentException("Illegal initial capacity: " +
+                                               initialCapacity);
+    //MAXIMUM_CAPACITY=1 << 30
+	//因为int类型的最大值为2的31次方-1； 但是hash需要时2的n次方，
+	//所以如果initialCapacity大于2的30次方，那么capacity就需要取2的31次方，但是2的31次方超过了int最大值，所以initialCapacity不能大于2的30次方
+	if (initialCapacity > MAXIMUM_CAPACITY)      
+		initialCapacity = MAXIMUM_CAPACITY;
+		
+    if (loadFactor <= 0 || Float.isNaN(loadFactor))
+        throw new IllegalArgumentException("Illegal load factor: " +loadFactor);
+		
+	// Find a power of 2 >= initialCapacity
+	int capacity = 1;
+	while (capacity < initialCapacity)
+		capacity <<= 1;
+
+	this.loadFactor = loadFactor;
+	threshold = (int)(capacity * loadFactor);
+	table = new Entry[capacity];
+	init();
+}
+
+有意思地方：
+	有一个init()方法：
+		void init() {
+		}
+	这个实现很有意思：毛都没有；
+	其实这是HashMap为子类提供的一个hook钩子。LinkedHashMap就实现了这个方法；
+		void init() {
+			header = new Entry<K,V>(-1, null, null, null);
+			header.before = header.after = header;
+		}	
+
+
+鄙人认为上面的方法有几点需要改进
+1、initialCapacity小于最小边界（0）时，抛异常， 大于最大边界时，就默认使用最大边界，不抛异常， 做法不统一。
+2、检查入参loadFactor应该在判断initialCapacity之前， fastfail
+3、入参initialCapacity，但实际的capacity并不是使用的initCapacity，而是大于等于initialCapacity最下的一个2的n次方，比如initCapacity=3是，则capacity为4， 鄙人建议直接powerByTwo如果传入3，则capacity为8.
+
+//调用
+public HashMap(int initialCapacity)
+
+public HashMap()
