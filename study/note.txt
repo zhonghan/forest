@@ -226,6 +226,27 @@ JAVA LOCK 总体来说关键要素主要包括3点：
 第2点：主要将未得到
 
 
+DB index:
+执行计划： 执行计划返回的字段：
+    id：包含一组数字，表示查询中执行select子句或操作表的顺序， id相同，执行顺序由上至下
+    select_type：a.SIMPLE：查询中不包含子查询或者UNION
+		b.查询中若包含任何复杂的子部分，最外层查询则被标记为：PRIMARY
+		c.在SELECT或WHERE列表中包含了子查询，该子查询被标记为：SUBQUERY
+		d.在FROM列表中包含的子查询被标记为：DERIVED（衍生）
+若		e， 第二个SELECT出现在UNION之后，则被标记为UNION；若UNION包含在  FROM子句的子查询中，外层SELECT将被标记为：DERIVED
+f.从UNION表获取结果的SELECT被标记为：UNION RESULT
+     Type：  All>index>range>reg>eq ref>const,system>NULL
+	由左至右，由最差到最好
+     possible_keys:指出MySQL能使用哪个索引在表中找到行，查询涉及到的字段上若存在索引，则该索引将被列出，但不一定被查询使用
+	
+List的排序， 三种
+大数据，去重：
+如何管理大量链接， 超时处理， 用什么数据结构
+	setConnectTimeout：设置连接超时时间，单位毫秒。
+	setConnectionRequestTimeout：设置从connect Manager获取Connection 超时时间，单位毫秒。这个属性是新加的属性，因为目前版本是可以共享连接池的。
+	setSocketTimeout：请求获取数据的超时时间，单位毫秒。 如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。	
+分布式缓存设计，分布式数据库设计。
+
 
 
 
